@@ -142,9 +142,9 @@ export default function App() {
     screenState === "ready" || screenState === "paused" || screenState === "waiting";
 
   const buttonStyle = {
-    height: "120px",
+    height: "clamp(80px, 12vw, 120px)",
     borderRadius: "28px",
-    fontSize: "48px",
+    fontSize: "clamp(24px, 4vw, 48px)",
     fontWeight: 800,
     border: "none",
     display: "flex",
@@ -172,7 +172,7 @@ export default function App() {
       <header style={{ textAlign: "center" }}>
         <h1
           style={{
-            fontSize: "96px",
+            fontSize: "clamp(48px, 8vw, 96px)",
             lineHeight: 1,
             fontWeight: 900,
             margin: 0,
@@ -181,7 +181,7 @@ export default function App() {
         >
           Decision Trainer
         </h1>
-        <p style={{ fontSize: "36px", marginTop: "18px", opacity: 0.8 }}>
+        <p style={{ fontSize: "clamp(18px, 3vw, 36px)", marginTop: "18px", opacity: 0.8 }}>
           15-second tee drill
         </p>
       </header>
@@ -204,14 +204,14 @@ export default function App() {
           >
             <div
               style={{
-                fontSize: screenState === "waiting" ? "320px" : "110px",
+                fontSize: screenState === "waiting" ? "clamp(140px, 30vw, 320px)" : "clamp(72px, 10vw, 110px)",
                 lineHeight: 1,
                 fontWeight: 1000,
               }}
             >
               {mainText}
             </div>
-            <p style={{ fontSize: "44px", marginTop: "28px", opacity: 0.82 }}>
+            <p style={{ fontSize: "clamp(20px, 4vw, 44px)", marginTop: "28px", opacity: 0.82 }}>
               {subText}
             </p>
           </motion.div>
