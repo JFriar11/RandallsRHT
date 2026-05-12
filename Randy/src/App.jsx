@@ -131,7 +131,7 @@ export default function App() {
 
   const subText =
     screenState === "ready"
-      ? "Press start. You should hear a test voice first."
+      ? "Press start!"
       : screenState === "paused"
       ? "Press start to continue."
       : screenState === "waiting"
