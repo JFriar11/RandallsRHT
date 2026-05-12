@@ -3,11 +3,12 @@ import { Play, Square, RotateCcw, Volume2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 const PITCH_COOLDOWN_SECONDS = 15;
-const CUE_DURATION_MS = 1200;
-const DECISION_DELAY_AFTER_SOUND_MS = 500;
+const CUE_DURATION_MS = 1500;
+const MIN_DECISION_DELAY_MS = 400;
+const MAX_DECISION_DELAY_MS = 800;
 
 function getRandomCall() {
-  return Math.random() < 0.5 ? "SWING" : "TAKE";
+  return Math.random() < 0.7 ? "SWING" : "TAKE";
 }
 
 export default function App() {
@@ -72,6 +73,15 @@ export default function App() {
     setCall(null);
   }
 
+  function getRandomDecisionDelay() {
+    return (
+      Math.floor(
+        Math.random() *
+          (MAX_DECISION_DELAY_MS - MIN_DECISION_DELAY_MS + 1)
+      ) + MIN_DECISION_DELAY_MS
+    );
+  }
+
   useEffect(() => {
     clearTimers();
 
@@ -104,7 +114,7 @@ export default function App() {
       timeoutRef.current = setTimeout(() => {
         setCall(getRandomCall());
         setScreenState("decision");
-      }, DECISION_DELAY_AFTER_SOUND_MS);
+      }, getRandomDecisionDelay());
     }
 
     if (screenState === "decision") {
