@@ -226,18 +226,7 @@ export default function App() {
           gap: "22px",
         }}
       >
-        <button
-          onClick={playPitchSound}
-          style={{
-            ...buttonStyle,
-            width: "100%",
-            background: "rgba(255,255,255,0.16)",
-            color: "white",
-          }}
-        >
-          <Volume2 size={58} />
-          Test Voice Cue
-        </button>
+        {/* Test Voice Cue button removed for cleaner mobile layout */}
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "22px" }}>
           {!isRunning ? (
