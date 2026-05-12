@@ -189,10 +189,10 @@ export default function App() {
             color: "white",
           }}
         >
-          Decision Trainer
+          RHT
         </h1>
         <p style={{ fontSize: "clamp(18px, 3vw, 36px)", marginTop: "18px", opacity: 0.8 }}>
-          15-second tee drill
+          Randall
         </p>
       </header>
 
