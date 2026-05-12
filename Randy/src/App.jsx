@@ -14,7 +14,6 @@ export default function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [screenState, setScreenState] = useState("ready");
   const [call, setCall] = useState(null);
-  const [repCount, setRepCount] = useState(0);
   const [countdown, setCountdown] = useState(PITCH_COOLDOWN_SECONDS);
 
   const timeoutRef = useRef(null);
@@ -54,7 +53,6 @@ export default function App() {
     setIsRunning(false);
     setScreenState("ready");
     setCall(null);
-    setRepCount(0);
     setCountdown(PITCH_COOLDOWN_SECONDS);
   }
 
@@ -104,9 +102,7 @@ export default function App() {
 
     if (screenState === "pitch") {
       timeoutRef.current = setTimeout(() => {
-        const nextCall = getRandomCall();
-        setCall(nextCall);
-        setRepCount((current) => current + 1);
+        setCall(getRandomCall());
         setScreenState("decision");
       }, DECISION_DELAY_AFTER_SOUND_MS);
     }
@@ -121,14 +117,8 @@ export default function App() {
     return clearTimers;
   }, [isRunning, screenState]);
 
-  const isSwing = call === "SWING";
-  const isTake = call === "TAKE";
-
-  const backgroundColor = isSwing
-    ? "#22c55e"
-    : isTake
-    ? "#ef4444"
-    : "#000000";
+  const backgroundColor =
+    call === "SWING" ? "#22c55e" : call === "TAKE" ? "#ef4444" : "#000000";
 
   const mainText =
     screenState === "ready"
@@ -149,91 +139,139 @@ export default function App() {
       : "";
 
   const showMainText =
-    screenState === "ready" ||
-    screenState === "paused" ||
-    screenState === "waiting";
+    screenState === "ready" || screenState === "paused" || screenState === "waiting";
+
+  const buttonStyle = {
+    height: "120px",
+    borderRadius: "28px",
+    fontSize: "48px",
+    fontWeight: 800,
+    border: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "12px",
+    cursor: "pointer",
+  };
 
   return (
     <main
-      className="min-h-screen text-white transition-colors duration-100"
-      style={{ backgroundColor }}
+      style={{
+        width: "100vw",
+        height: "100vh",
+        overflow: "hidden",
+        backgroundColor,
+        color: "white",
+        display: "flex",
+        flexDirection: "column",
+        padding: "40px",
+        boxSizing: "border-box",
+        transition: "background-color 100ms linear",
+      }}
     >
-      <div className="mx-auto flex min-h-screen max-w-md flex-col px-5 py-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Decision Trainer</h1>
-            <p className="text-sm opacity-80">15-second tee drill</p>
-          </div>
+      <header style={{ textAlign: "center" }}>
+        <h1
+          style={{
+            fontSize: "96px",
+            lineHeight: 1,
+            fontWeight: 900,
+            margin: 0,
+            color: "white",
+          }}
+        >
+          Decision Trainer
+        </h1>
+        <p style={{ fontSize: "36px", marginTop: "18px", opacity: 0.8 }}>
+          15-second tee drill
+        </p>
+      </header>
 
-          <div className="rounded-full bg-white/20 px-4 py-2">
-            Rep {repCount}
-          </div>
-        </div>
-
-        <div className="flex flex-1 items-center justify-center">
-          {showMainText && (
-            <motion.div
-              key={`${screenState}-${countdown}`}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.15 }}
-              className="text-center"
+      <section
+        style={{
+          flex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+        }}
+      >
+        {showMainText && (
+          <motion.div
+            key={`${screenState}-${countdown}`}
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.15 }}
+          >
+            <div
+              style={{
+                fontSize: screenState === "waiting" ? "320px" : "110px",
+                lineHeight: 1,
+                fontWeight: 1000,
+              }}
             >
-              <div className="text-8xl font-black">{mainText}</div>
-              <p className="mt-5 text-lg opacity-80">{subText}</p>
-            </motion.div>
-          )}
-        </div>
+              {mainText}
+            </div>
+            <p style={{ fontSize: "44px", marginTop: "28px", opacity: 0.82 }}>
+              {subText}
+            </p>
+          </motion.div>
+        )}
+      </section>
 
-        <div className="rounded-3xl bg-white/10 p-5 backdrop-blur">
-          <div className="mb-4 grid grid-cols-2 gap-3 text-center text-sm">
-            <div className="rounded-2xl bg-white/10 p-3">
-              <div className="font-bold">Green Flash</div>
-              <div className="opacity-75">Swing</div>
-            </div>
-            <div className="rounded-2xl bg-white/10 p-3">
-              <div className="font-bold">Red Flash</div>
-              <div className="opacity-75">Take</div>
-            </div>
-          </div>
+      <footer
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          gap: "22px",
+        }}
+      >
+        <button
+          onClick={playPitchSound}
+          style={{
+            ...buttonStyle,
+            width: "100%",
+            background: "rgba(255,255,255,0.16)",
+            color: "white",
+          }}
+        >
+          <Volume2 size={58} />
+          Test Voice Cue
+        </button>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "22px" }}>
+          {!isRunning ? (
+            <button
+              onClick={startDrill}
+              style={{ ...buttonStyle, background: "white", color: "black" }}
+            >
+              <Play size={64} />
+              Start
+            </button>
+          ) : (
+            <button
+              onClick={stopDrill}
+              style={{ ...buttonStyle, background: "#d1d5db", color: "black" }}
+            >
+              <Square size={64} />
+              Stop
+            </button>
+          )}
 
           <button
-            onClick={playPitchSound}
-            className="mb-3 flex h-12 w-full items-center justify-center rounded-2xl bg-white/20 font-bold"
+            onClick={resetDrill}
+            style={{
+              ...buttonStyle,
+              background: "rgba(255,255,255,0.08)",
+              color: "white",
+              border: "3px solid rgba(255,255,255,0.55)",
+            }}
           >
-            <Volume2 className="mr-2 h-5 w-5" />
-            Test Voice Cue
+            <RotateCcw size={64} />
+            Reset
           </button>
-
-          <div className="grid grid-cols-2 gap-3">
-            {!isRunning ? (
-              <button
-                onClick={startDrill}
-                className="flex h-14 items-center justify-center rounded-2xl bg-white text-black font-bold"
-              >
-                <Play className="mr-2 h-5 w-5" />
-                Start
-              </button>
-            ) : (
-              <button
-                onClick={stopDrill}
-                className="flex h-14 items-center justify-center rounded-2xl bg-gray-300 text-black font-bold"
-              >
-                <Square className="mr-2 h-5 w-5" />
-                Stop
-              </button>
-            )}
-
-            <button
-              onClick={resetDrill}
-              className="flex h-14 items-center justify-center rounded-2xl border border-white bg-transparent font-bold"
-            >
-              <RotateCcw className="mr-2 h-5 w-5" />
-              Reset
-            </button>
-          </div>
         </div>
-      </div>
+      </footer>
     </main>
   );
 }
