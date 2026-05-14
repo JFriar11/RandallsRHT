@@ -4,7 +4,7 @@ A mobile-first baseball pitch recognition and swing decision trainer built with 
 
 The app is designed for solo tee work and reaction training. Players hear a voice cue (“Pitch”), then react to a full-screen color flash:
 
-* Green = Swing
+* No Flash = Swing
 * Red = Take
 
 The drill helps train:
