@@ -128,7 +128,7 @@ export default function App() {
   }, [isRunning, screenState]);
 
   const backgroundColor =
-    call === "SWING" ? "#22c55e" : call === "TAKE" ? "#ef4444" : "#000000";
+    call === "SWING" ? "black" : call === "TAKE" ? "#ef4444" : "#000000";
 
   const mainText =
     screenState === "ready"
