@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 
 const PITCH_COOLDOWN_SECONDS = 15;
 const CUE_DURATION_MS = 1500;
-const MIN_DECISION_DELAY_MS = 400;
-const MAX_DECISION_DELAY_MS = 800;
+const MIN_DECISION_DELAY_MS = 600;
+const MAX_DECISION_DELAY_MS = 1000;
 
 function getRandomCall() {
   return Math.random() < 0.7 ? "SWING" : "TAKE";
